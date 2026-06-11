@@ -1,0 +1,26 @@
+from matplotlib import rcParams
+
+config = {
+    "font.family": 'serif',
+    "font.size": 10,
+    "mathtext.fontset": 'stix',
+    "font.serif": ['Times New Roman'],
+    'axes.unicode_minus': False
+}
+rcParams.update(config)
+
+plt.ion()
+for ii in range(n_out):
+    plt.style.use('cyberpunk')
+    plt.figure(figsize=(10, 2), dpi=300)
+    x = range(1, len(predicted_data) + 1)
+    plt.xticks(x[::int((len(predicted_data) + 1))])
+    plt.tick_params(labelsize=5)
+    plt.plot(x, predicted_data[:, ii], linestyle="--", linewidth=0.5, label='predict')
+    plt.plot(x, Ytest[:, ii], linestyle="-", linewidth=0.5, label='Real')
+    plt.legend(loc='upper right', frameon=False)
+    plt.xlabel("Sample points", fontsize=5)
+    plt.ylabel("value", fontsize=5)
+    plt.title(f"{ii+1} step of CNN-BiGRU prediction\nMAPE: {mape(Ytest[:, ii], predicted_data[:, ii])} %")
+plt.ioff()
+plt.show()
