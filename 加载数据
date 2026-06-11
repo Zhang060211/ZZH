@@ -1,0 +1,4 @@
+dataset = pd.read_csv("bus.cv", encoding='gb2312')  # 读取CSV文件
+print(dataset)
+values = dataset.values[:, 1:]  # 选择所有行，去除第一列
+values = values.astype('float32')  # 转换数据类型为浮点数

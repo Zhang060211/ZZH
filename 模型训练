@@ -1,0 +1,14 @@
+def cnn_bigru_model():
+    inputs = Input(shape=(vp_train.shape[1], vp_train.shape[2]))
+    conv1d = Conv1D(filters=32, kernel_size=2, activation='relu')(inputs)
+    maxpooling = MaxPooling1D(pool_size=2)(conv1d)
+    reshaped = Reshape((-1, 32))(maxpooling)
+    bigru = Bidirectional(GRU(128, activation='selu', return_sequences=False))(reshaped)
+    outputs = Dense(vt_train.shape[1])(bigru)
+    model = Model(inputs=inputs, outputs=outputs)
+    model.compile(loss='mse', optimizer='Adam')
+    model.summary()
+    return model
+
+model = cnn_bigru_model()
+history = model.fit(vp_train, vt_train, batch_size=32, epochs=50, validation_split=0.25, verbose=2)

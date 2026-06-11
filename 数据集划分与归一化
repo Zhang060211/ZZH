@@ -1,0 +1,23 @@
+n_in = 5  # 输入步长
+n_out = 2  # 输出步长
+or_dim = values.shape[1]  # 特征维度
+num_samples = 2000  # 样本数量
+scroll_window = 1  # 滑动窗口大小
+res = data_collation(values, n_in, n_out, or_dim, scroll_window, num_samples)
+values = np.array(res)
+
+n_train_number = int(num_samples * 0.85)
+Xtrain = values[:n_train_number, :n_in * or_dim]
+Ytrain = values[:n_train_number, n_in * or_dim:]
+Xtest = values[n_train_number:, :n_in * or_dim]
+Ytest = values[n_train_number:, n_in * or_dim:]
+
+m_in = MinMaxScaler()
+vp_train = m_in.fit_transform(Xtrain)
+vp_test = m_in.transform(Xtest)
+m_out = MinMaxScaler()
+vt_train = m_out.fit_transform(Ytrain)
+vt_test = m_out.transform(Ytest)
+
+vp_train = vp_train.reshape((vp_train.shape[0], n_in, or_dim))
+vp_test = vp_test.reshape((vp_test.shape[0], n_in, or_dim))

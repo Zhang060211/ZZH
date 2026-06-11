@@ -1,0 +1,10 @@
+def data_collation(data, n_in, n_out, or_dim, scroll_window, num_samples):
+    res = np.zeros((num_samples, n_in * or_dim + n_out))
+    for i in range(num_samples):
+        h1 = values[scroll_window * i: n_in + scroll_window * i, 0:or_dim]
+        h2 = h1.reshape(1, n_in * or_dim)
+        h3 = values[n_in + scroll_window * i: n_in + scroll_window * i + n_out, -1].T
+        h4 = h3[np.newaxis, :]
+        h5 = np.hstack((h2, h4))
+        res[i, :] = h5
+    return res
