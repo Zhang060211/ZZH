@@ -1,0 +1,3 @@
+yhat = model.predict(vp_test)
+yhat = yhat.reshape(num_samples - n_train_number, n_out)
+predicted_data = m_out.inverse_transform(yhat)
