@@ -1,0 +1,22 @@
+def mape(y_true, y_pred):
+    record = []
+    for index in range(len(y_true)):
+        temp_mape = np.abs((y_pred[index] - y_true[index]) / y_true[index])
+        record.append(temp_mape)
+    return np.mean(record) * 100
+
+def evaluate_forecasts(Ytest, predicted_data, n_out):
+    mse_dic, rmse_dic, mae_dic, mape_dic, r2_dic = [], [], [], [], []
+    table = PrettyTable(['测试集指标', 'MSE', 'RMSE', 'MAE', 'MAPE', 'R2'])
+    for i in range(n_out):
+        actual = [float(row[i]) for row in Ytest]
+        predicted = [float(row[i]) for row in predicted_data]
+        mse = mean_squared_error(actual, predicted)
+        rmse = sqrt(mse)
+        mae = mean_absolute_error(actual, predicted)
+        MApe = mape(actual, predicted)
+        r2 = r2_score(actual, predicted)
+        table.add_row([f'第{i + 1}步预测结果指标：', mse, rmse, mae, f'{MApe}%', f'{r2 * 100}%'])
+    return table
+
+print(evaluate_forecasts(Ytest, predicted_data, n_out))
